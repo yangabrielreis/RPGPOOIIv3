@@ -14,6 +14,8 @@
     import javafx.scene.text.FontWeight;
     import javafx.scene.paint.Color;
     import javafx.util.Duration;
+    import javafx.stage.FileChooser;
+    import java.io.File;
 
     import java.sql.SQLException;
     import java.util.ArrayList;
@@ -44,7 +46,7 @@
             BorderPane root = new BorderPane();
             root.setStyle("-fx-background-color: #1E1E1E; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0.5, 0.0, 0.0);");
 
-            ImageView gifView = new ImageView(new Image("file:D:\\Documentos\\codes\\java\\rpgarhtur\\POOIIrpg\\rpg\\RPGPOOII\\sistemaRPG\\ninjaBranco.gif"));
+            ImageView gifView = new ImageView(new Image("file:D:\\Documentos\\codes\\java\\rpg\\rpgfinal\\RPGPOOIIv3\\sistemaRPG\\ninjaBranco.gif"));
 
             gifView.setFitWidth(250);
             gifView.setFitHeight(350);
@@ -170,6 +172,23 @@
             Label lblImagem = new Label("Caminho da Imagem:");
             lblImagem.setStyle("-fx-text-fill: #D3D3D3;");
             TextField campoImagem = new TextField();
+
+            Button btnSelecionarImagem = new Button("Selecionar Imagem");
+            btnSelecionarImagem.setFont(Font.font("Arial", 14));
+            btnSelecionarImagem.setTextFill(Color.WHITE);
+            btnSelecionarImagem.setStyle("-fx-background-color: #007ACC; -fx-background-radius: 8;");
+            btnSelecionarImagem.setOnAction(e -> {
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Selecionar Imagem");
+                fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("Imagens", "*.png", "*.jpg", "*.jpeg", "*.gif")
+                );
+                File selectedFile = fileChooser.showOpenDialog(stageCaracteristicas);
+                if (selectedFile != null) {
+                    campoImagem.setText(selectedFile.getAbsolutePath());
+                }
+            });
+            grid.add(btnSelecionarImagem, 2, 6);
 
             Button btnProximo = new Button("Próximo: Definir Atributos");
             btnProximo.setFont(Font.font("Arial", 16));
@@ -415,9 +434,13 @@
                     lblDescricao.setFont(Font.font("Arial", 16));
                     lblDescricao.setTextFill(Color.WHITE);
 
-                    Label lblImagem = new Label("Caminho da Imagem: " + personagemSistema.getPersonagem().getUrlImg());
-                    lblImagem.setFont(Font.font("Arial", 16));
-                    lblImagem.setTextFill(Color.WHITE);
+                    ImageView imagemView = new ImageView(new Image("file:" + personagemSistema.getPersonagem().getUrlImg()));
+                    imagemView.setFitHeight(100);
+                    HBox imagemContainer = new HBox(imagemView);
+                    imagemView.setPreserveRatio(true);
+                    imagemContainer.setPadding(new Insets(10));
+                    VBox.setMargin(imagemContainer, new Insets(0, 0, 0, 20));
+                    vboxDetalhes.getChildren().add(imagemContainer);
 
                     Label lblNvl = new Label("Nível: " + personagemSistema.getNivel());
                     lblNvl.setFont(Font.font("Arial", 16));
@@ -451,7 +474,7 @@
                     lblCarisma.setFont(Font.font("Arial", 16));
                     lblCarisma.setTextFill(Color.WHITE);
 
-                    vboxDetalhes.getChildren().addAll(lblNome, lblClasse, lblRaca, lblDescricao, lblImagem, lblNvl, lblHp, lblForca, lblDestreza, lblConstituicao, lblInteligencia, lblSabedoria, lblCarisma);
+                    vboxDetalhes.getChildren().addAll(lblNome, lblClasse, lblRaca, lblDescricao, lblNvl, lblHp, lblForca, lblDestreza, lblConstituicao, lblInteligencia, lblSabedoria, lblCarisma);
 
                     Scene cenaDetalhes = new Scene(vboxDetalhes, 400, 500);
                     stageDetalhes.setScene(cenaDetalhes);
@@ -520,6 +543,21 @@
                         TextField campoSabedoria = new TextField(String.valueOf(personagemSistema.getPersonagem().getSabedoria()));
                         TextField campoCarisma = new TextField(String.valueOf(personagemSistema.getPersonagem().getCarisma()));
 
+                        Button btnSelecionarImagem = new Button("Selecionar Imagem");
+                        btnSelecionarImagem.setFont(Font.font("Arial", 14));
+                        btnSelecionarImagem.setTextFill(Color.WHITE);
+                        btnSelecionarImagem.setStyle("-fx-background-color: #007ACC; -fx-background-radius: 8;");
+                        btnSelecionarImagem.setOnAction(ev -> {
+                        FileChooser fileChooser = new FileChooser();
+                        fileChooser.setTitle("Selecionar Imagem");
+                        fileChooser.getExtensionFilters().addAll(
+                        new FileChooser.ExtensionFilter("Imagens", "*.png", "*.jpg", "*.jpeg", "*.gif")
+                        );
+                        File selectedFile = fileChooser.showOpenDialog(stageEditarPersonagem);
+                        campoImagem.setText(selectedFile.getAbsolutePath());                    
+                        });
+                        grid.add(btnSelecionarImagem, 2, 5);
+
                         Button btnSalvar = new Button("Salvar Alterações");
                         btnSalvar.setFont(Font.font("Arial", 16));
                         btnSalvar.setTextFill(Color.WHITE);
@@ -533,7 +571,6 @@
                             if (Integer.parseInt(campoForca.getText()) > 20 || Integer.parseInt(campoDestreza.getText()) > 20 || Integer.parseInt(campoInteligencia.getText()) > 20 || Integer.parseInt(campoConstituicao.getText()) > 20 || Integer.parseInt(campoSabedoria.getText()) > 20 || Integer.parseInt(campoCarisma.getText()) > 20) {
                             exibirAlerta("Valores inválidos", "Os atributos devem não podem ser maiores que 20.");    
                             throw new IllegalArgumentException("Os atributos não podem ser maiores que 20.");
-                            
                             }
 
                             Personagem personagemNovo = new Personagem(
@@ -549,6 +586,9 @@
                             Integer.parseInt(campoSabedoria.getText()),
                             Integer.parseInt(campoCarisma.getText())
                             );
+
+                            PersonagemDBDAO personagemDB = new PersonagemDBDAO();
+                            personagemDB.atualizar(personagemNovo);
 
                             ClasseDBDAO classeDB = new ClasseDBDAO();
                             RacaDBDAO racaDB = new RacaDBDAO();
