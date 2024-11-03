@@ -265,27 +265,27 @@
             TextField campoCarisma = new TextField();
             
             Button btnForcaAleatorio = new Button("🎲");
-            btnForcaAleatorio.setOnAction(e -> campoForca.setText(String.valueOf((int) (Math.random() * 20) + 1)));
+            btnForcaAleatorio.setOnAction(e -> campoForca.setText(String.valueOf(rodarAtributos())));
             grid.add(btnForcaAleatorio, 2, 1);
 
             Button btnDestrezaAleatorio = new Button("🎲");
-            btnDestrezaAleatorio.setOnAction(e -> campoDestreza.setText(String.valueOf((int) (Math.random() * 20) + 1)));
+            btnDestrezaAleatorio.setOnAction(e -> campoDestreza.setText(String.valueOf(rodarAtributos())));
             grid.add(btnDestrezaAleatorio, 2, 2);
 
             Button btnConstituicaoAleatorio = new Button("🎲");
-            btnConstituicaoAleatorio.setOnAction(e -> campoConstituicao.setText(String.valueOf((int) (Math.random() * 20) + 1)));
+            btnConstituicaoAleatorio.setOnAction(e -> campoConstituicao.setText(String.valueOf(rodarAtributos())));
             grid.add(btnConstituicaoAleatorio, 2, 3);
 
             Button btnInteligenciaAleatorio = new Button("🎲");
-            btnInteligenciaAleatorio.setOnAction(e -> campoInteligencia.setText(String.valueOf((int) (Math.random() * 20) + 1)));
+            btnInteligenciaAleatorio.setOnAction(e -> campoInteligencia.setText(String.valueOf(rodarAtributos())));
             grid.add(btnInteligenciaAleatorio, 2, 4);
 
             Button btnSabedoriaAleatorio = new Button("🎲");
-            btnSabedoriaAleatorio.setOnAction(e -> campoSabedoria.setText(String.valueOf((int) (Math.random() * 20) + 1)));
+            btnSabedoriaAleatorio.setOnAction(e -> campoSabedoria.setText(String.valueOf(rodarAtributos())));
             grid.add(btnSabedoriaAleatorio, 2, 5);
 
             Button btnCarismaAleatorio = new Button("🎲");
-            btnCarismaAleatorio.setOnAction(e -> campoCarisma.setText(String.valueOf((int) (Math.random() * 20) + 1)));
+            btnCarismaAleatorio.setOnAction(e -> campoCarisma.setText(String.valueOf(rodarAtributos())));
             grid.add(btnCarismaAleatorio, 2, 6);
             Button btnSalvar = new Button("Salvar Personagem");
             btnSalvar.setFont(Font.font("Arial", 16));
@@ -434,13 +434,16 @@
                     lblDescricao.setFont(Font.font("Arial", 16));
                     lblDescricao.setTextFill(Color.WHITE);
 
-                    ImageView imagemView = new ImageView(new Image("file:" + personagemSistema.getPersonagem().getUrlImg()));
-                    imagemView.setFitHeight(100);
-                    HBox imagemContainer = new HBox(imagemView);
-                    imagemView.setPreserveRatio(true);
-                    imagemContainer.setPadding(new Insets(10));
-                    VBox.setMargin(imagemContainer, new Insets(0, 0, 0, 20));
-                    vboxDetalhes.getChildren().add(imagemContainer);
+                    if(personagemSistema.getPersonagem().getUrlImg() != null) {
+                        ImageView imagemView = new ImageView(new Image("file:" + personagemSistema.getPersonagem().getUrlImg()));
+                        imagemView.setFitHeight(100);
+                        HBox imagemContainer = new HBox(imagemView);
+                        imagemView.setPreserveRatio(true);
+                        imagemContainer.setPadding(new Insets(10));
+                        VBox.setMargin(imagemContainer, new Insets(0, 0, 0, 20));
+                        vboxDetalhes.getChildren().add(imagemContainer);
+                    }
+                    
 
                     Label lblNvl = new Label("Nível: " + personagemSistema.getNivel());
                     lblNvl.setFont(Font.font("Arial", 16));
@@ -474,7 +477,74 @@
                     lblCarisma.setFont(Font.font("Arial", 16));
                     lblCarisma.setTextFill(Color.WHITE);
 
-                    vboxDetalhes.getChildren().addAll(lblNome, lblClasse, lblRaca, lblDescricao, lblNvl, lblHp, lblForca, lblDestreza, lblConstituicao, lblInteligencia, lblSabedoria, lblCarisma);
+                    Button btnTesteForca = new Button("Testar Força");
+                    btnTesteForca.setFont(Font.font("Arial", 14));
+                    btnTesteForca.setTextFill(Color.WHITE);
+                    btnTesteForca.setStyle("-fx-background-color: #007ACC; -fx-background-radius: 8;");
+                    btnTesteForca.setOnAction(ev -> {
+                        int resultado = testeAtributo(personagemSistema.getForca());
+                        exibirResultadoTeste("Força", resultado);
+                    });
+
+                    Button btnTesteDestreza = new Button("Testar Destreza");
+                    btnTesteDestreza.setFont(Font.font("Arial", 14));
+                    btnTesteDestreza.setTextFill(Color.WHITE);
+                    btnTesteDestreza.setStyle("-fx-background-color: #007ACC; -fx-background-radius: 8;");
+                    btnTesteDestreza.setOnAction(ev -> {
+                        int resultado = testeAtributo(personagemSistema.getDestreza());
+                        exibirResultadoTeste("Destreza", resultado);
+                    });
+
+                    Button btnTesteConstituicao = new Button("Testar Constituição");
+                    btnTesteConstituicao.setFont(Font.font("Arial", 14));
+                    btnTesteConstituicao.setTextFill(Color.WHITE);
+                    btnTesteConstituicao.setStyle("-fx-background-color: #007ACC; -fx-background-radius: 8;");
+                    btnTesteConstituicao.setOnAction(ev -> {
+                        int resultado = testeAtributo(personagemSistema.getConstituicao());
+                        exibirResultadoTeste("Constituição", resultado);
+                    });
+
+                    Button btnTesteInteligencia = new Button("Testar Inteligência");
+                    btnTesteInteligencia.setFont(Font.font("Arial", 14));
+                    btnTesteInteligencia.setTextFill(Color.WHITE);
+                    btnTesteInteligencia.setStyle("-fx-background-color: #007ACC; -fx-background-radius: 8;");
+                    btnTesteInteligencia.setOnAction(ev -> {
+                        int resultado = testeAtributo(personagemSistema.getInteligencia());
+                        exibirResultadoTeste("Inteligência", resultado);
+                    });
+
+                    Button btnTesteSabedoria = new Button("Testar Sabedoria");
+                    btnTesteSabedoria.setFont(Font.font("Arial", 14));
+                    btnTesteSabedoria.setTextFill(Color.WHITE);
+                    btnTesteSabedoria.setStyle("-fx-background-color: #007ACC; -fx-background-radius: 8;");
+                    btnTesteSabedoria.setOnAction(ev -> {
+                        int resultado = testeAtributo(personagemSistema.getSabedoria());
+                        exibirResultadoTeste("Sabedoria", resultado);
+                    });
+
+                    Button btnTesteCarisma = new Button("Testar Carisma");
+                    btnTesteCarisma.setFont(Font.font("Arial", 14));
+                    btnTesteCarisma.setTextFill(Color.WHITE);
+                    btnTesteCarisma.setStyle("-fx-background-color: #007ACC; -fx-background-radius: 8;");
+                    btnTesteCarisma.setOnAction(ev -> {
+                        int resultado = testeAtributo(personagemSistema.getCarisma());
+                        exibirResultadoTeste("Carisma", resultado);
+                    });
+
+                    HBox hboxForca = new HBox(lblForca, btnTesteForca);
+                    hboxForca.setSpacing(10);
+                    HBox hboxDestreza = new HBox(lblDestreza, btnTesteDestreza);
+                    hboxDestreza.setSpacing(10);
+                    HBox hboxConstituicao = new HBox(lblConstituicao, btnTesteConstituicao);
+                    hboxConstituicao.setSpacing(10);
+                    HBox hboxInteligencia = new HBox(lblInteligencia, btnTesteInteligencia);
+                    hboxInteligencia.setSpacing(10);
+                    HBox hboxSabedoria = new HBox(lblSabedoria, btnTesteSabedoria);
+                    hboxSabedoria.setSpacing(10);
+                    HBox hboxCarisma = new HBox(lblCarisma, btnTesteCarisma);
+                    hboxCarisma.setSpacing(10);
+
+                    vboxDetalhes.getChildren().addAll(lblNome, lblClasse, lblRaca, lblDescricao, lblNvl, lblHp, hboxForca, hboxDestreza, hboxConstituicao, hboxInteligencia, hboxSabedoria, hboxCarisma);
 
                     Scene cenaDetalhes = new Scene(vboxDetalhes, 400, 500);
                     stageDetalhes.setScene(cenaDetalhes);
@@ -682,4 +752,37 @@
                     stageEditar.show();
                 }
         
+        private int testeAtributo(int atributo)
+        {
+            return (int)(Math.random() * 20) + 1 + atributo;
+        }
+
+        private int rodarAtributos()
+        {
+            int menor = 7;
+            int atual;
+            int soma = 0;
+            for(int i = 0; i < 4; i++)
+            {
+                atual = (int)(Math.random() * 6) + 1;
+                soma = soma + atual;
+                if(menor > atual){
+                    menor = atual;
+                }
+            }
+            
+            return soma - menor;
+        }
+
+        void exibirResultadoTeste(String atributo, int resultado) {
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("Resultado do Teste");
+            alerta.setHeaderText(null);
+            alerta.setContentText("O resultado do teste de " + atributo + " foi: " + resultado);
+            alerta.showAndWait();
+        }
     }
+
+    
+
+    
