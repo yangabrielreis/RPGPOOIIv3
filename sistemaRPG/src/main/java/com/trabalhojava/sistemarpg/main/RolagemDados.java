@@ -1,8 +1,8 @@
 package com.trabalhojava.sistemarpg.main;
 /*1° Refatoração
  Autor: Mateus de Oliveira Lopes
- Uso do Extract Class para
- Objetivo: Diminuir o tamanho do MenusController
+ Uso do Extract Class para extrair os trechos de rolagem aleatória do MenusController para uma classe prova RolagemDados
+ Objetivo: Diminuir o tamanho do MenusController e melhorar a leitura e organização do código
 */
 public class RolagemDados {
     public int testeAtributo(int atributo)
