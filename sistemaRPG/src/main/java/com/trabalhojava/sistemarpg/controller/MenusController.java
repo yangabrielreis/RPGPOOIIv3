@@ -31,9 +31,11 @@
     import com.trabalhojava.sistemarpg.model.Sistema;
     import com.trabalhojava.sistemarpg.dao.RacaDBDAO;
     import com.trabalhojava.sistemarpg.dao.SistemaDBDAO;
+    import com.trabalhojava.sistemarpg.main.RolagemDados;
 
     public class MenusController extends Application {
         List<Personagem> personagens = new ArrayList<>();
+        RolagemDados dado = new RolagemDados();
 
         public static void main(String[] args) {
             launch(args);
@@ -46,7 +48,7 @@
             BorderPane root = new BorderPane();
             root.setStyle("-fx-background-color: #1E1E1E; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0.5, 0.0, 0.0);");
 
-            ImageView gifView = new ImageView(new Image("file:D:\\Documentos\\codes\\java\\rpg\\rpgfinal\\RPGPOOIIv3\\sistemaRPG\\ninjaBranco.gif"));
+            ImageView gifView = new ImageView(new Image("file:/home/shimiraoleg/Desktop/RPGPOOIIv3/sistemaRPG/ninjaBranco.gif"));
 
             gifView.setFitWidth(250);
             gifView.setFitHeight(350);
@@ -265,27 +267,27 @@
             TextField campoCarisma = new TextField();
             
             Button btnForcaAleatorio = new Button("🎲");
-            btnForcaAleatorio.setOnAction(e -> campoForca.setText(String.valueOf(rodarAtributos())));
+            btnForcaAleatorio.setOnAction(e -> campoForca.setText(String.valueOf(dado.rodarAtributos())));
             grid.add(btnForcaAleatorio, 2, 1);
 
             Button btnDestrezaAleatorio = new Button("🎲");
-            btnDestrezaAleatorio.setOnAction(e -> campoDestreza.setText(String.valueOf(rodarAtributos())));
+            btnDestrezaAleatorio.setOnAction(e -> campoDestreza.setText(String.valueOf(dado.rodarAtributos())));
             grid.add(btnDestrezaAleatorio, 2, 2);
 
             Button btnConstituicaoAleatorio = new Button("🎲");
-            btnConstituicaoAleatorio.setOnAction(e -> campoConstituicao.setText(String.valueOf(rodarAtributos())));
+            btnConstituicaoAleatorio.setOnAction(e -> campoConstituicao.setText(String.valueOf(dado.rodarAtributos())));
             grid.add(btnConstituicaoAleatorio, 2, 3);
 
             Button btnInteligenciaAleatorio = new Button("🎲");
-            btnInteligenciaAleatorio.setOnAction(e -> campoInteligencia.setText(String.valueOf(rodarAtributos())));
+            btnInteligenciaAleatorio.setOnAction(e -> campoInteligencia.setText(String.valueOf(dado.rodarAtributos())));
             grid.add(btnInteligenciaAleatorio, 2, 4);
 
             Button btnSabedoriaAleatorio = new Button("🎲");
-            btnSabedoriaAleatorio.setOnAction(e -> campoSabedoria.setText(String.valueOf(rodarAtributos())));
+            btnSabedoriaAleatorio.setOnAction(e -> campoSabedoria.setText(String.valueOf(dado.rodarAtributos())));
             grid.add(btnSabedoriaAleatorio, 2, 5);
 
             Button btnCarismaAleatorio = new Button("🎲");
-            btnCarismaAleatorio.setOnAction(e -> campoCarisma.setText(String.valueOf(rodarAtributos())));
+            btnCarismaAleatorio.setOnAction(e -> campoCarisma.setText(String.valueOf(dado.rodarAtributos())));
             grid.add(btnCarismaAleatorio, 2, 6);
             Button btnSalvar = new Button("Salvar Personagem");
             btnSalvar.setFont(Font.font("Arial", 16));
@@ -482,7 +484,7 @@
                     btnTesteForca.setTextFill(Color.WHITE);
                     btnTesteForca.setStyle("-fx-background-color: #007ACC; -fx-background-radius: 8;");
                     btnTesteForca.setOnAction(ev -> {
-                        int resultado = testeAtributo(personagemSistema.getForca());
+                        int resultado = dado.testeAtributo(personagemSistema.getForca());
                         exibirResultadoTeste("Força", resultado);
                     });
 
@@ -491,7 +493,7 @@
                     btnTesteDestreza.setTextFill(Color.WHITE);
                     btnTesteDestreza.setStyle("-fx-background-color: #007ACC; -fx-background-radius: 8;");
                     btnTesteDestreza.setOnAction(ev -> {
-                        int resultado = testeAtributo(personagemSistema.getDestreza());
+                        int resultado = dado.testeAtributo(personagemSistema.getDestreza());
                         exibirResultadoTeste("Destreza", resultado);
                     });
 
@@ -500,7 +502,7 @@
                     btnTesteConstituicao.setTextFill(Color.WHITE);
                     btnTesteConstituicao.setStyle("-fx-background-color: #007ACC; -fx-background-radius: 8;");
                     btnTesteConstituicao.setOnAction(ev -> {
-                        int resultado = testeAtributo(personagemSistema.getConstituicao());
+                        int resultado = dado.testeAtributo(personagemSistema.getConstituicao());
                         exibirResultadoTeste("Constituição", resultado);
                     });
 
@@ -509,7 +511,7 @@
                     btnTesteInteligencia.setTextFill(Color.WHITE);
                     btnTesteInteligencia.setStyle("-fx-background-color: #007ACC; -fx-background-radius: 8;");
                     btnTesteInteligencia.setOnAction(ev -> {
-                        int resultado = testeAtributo(personagemSistema.getInteligencia());
+                        int resultado = dado.testeAtributo(personagemSistema.getInteligencia());
                         exibirResultadoTeste("Inteligência", resultado);
                     });
 
@@ -518,7 +520,7 @@
                     btnTesteSabedoria.setTextFill(Color.WHITE);
                     btnTesteSabedoria.setStyle("-fx-background-color: #007ACC; -fx-background-radius: 8;");
                     btnTesteSabedoria.setOnAction(ev -> {
-                        int resultado = testeAtributo(personagemSistema.getSabedoria());
+                        int resultado = dado.testeAtributo(personagemSistema.getSabedoria());
                         exibirResultadoTeste("Sabedoria", resultado);
                     });
 
@@ -527,7 +529,7 @@
                     btnTesteCarisma.setTextFill(Color.WHITE);
                     btnTesteCarisma.setStyle("-fx-background-color: #007ACC; -fx-background-radius: 8;");
                     btnTesteCarisma.setOnAction(ev -> {
-                        int resultado = testeAtributo(personagemSistema.getCarisma());
+                        int resultado = dado.testeAtributo(personagemSistema.getCarisma());
                         exibirResultadoTeste("Carisma", resultado);
                     });
 
@@ -752,7 +754,7 @@
                     stageEditar.show();
                 }
         
-        private int testeAtributo(int atributo)
+        /*private int testeAtributo(int atributo)
         {
             return (int)(Math.random() * 20) + 1 + atributo;
         }
@@ -772,7 +774,7 @@
             }
             
             return soma - menor;
-        }
+        } */
 
         void exibirResultadoTeste(String atributo, int resultado) {
             Alert alerta = new Alert(Alert.AlertType.INFORMATION);

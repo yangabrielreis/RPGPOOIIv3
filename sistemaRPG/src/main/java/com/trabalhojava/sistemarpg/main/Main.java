@@ -15,7 +15,7 @@ import com.trabalhojava.sistemarpg.model.PersonagemSistema;
 
 public class Main {
     public static void main(String[] args) throws SQLException{
-        Personagem personagem = new Personagem(1,"Singus","The GOAT","Imagem Foda",17,-1,3,4,7,2,-2);
+        Personagem personagem = new Personagem(1,"Singus","The GOAT","Imagem Legal",17,-1,3,4,7,2,-2);
         Personagem personagem1 = new Personagem(2,"Degnis","The B","Imagem",12,-1,3,4,7,2,-2);
         PersonagemDBDAO personagemDAO = new PersonagemDBDAO();
         System.out.println("INSERE PERSONAGENS");
@@ -43,8 +43,8 @@ public class Main {
         System.out.println("REMOVE SISTEMA");
         sistemaDAO.remover(sistema2);
 
-        Raca raca1 = new Raca(1,"Gobli", "Goblin moments", 0, 0, 1, 2, 0, -1, sistema1);
-        Raca raca2 = new Raca(2,"Humano", "human buxa", 1, 1, 1, 1, 1, 1, sistema1);
+        Raca raca1 = new Raca(1,"Gobli", "Goblin", 0, 0, 1, 2, 0, -1, sistema1);
+        Raca raca2 = new Raca(2,"Humano", "human", 1, 1, 1, 1, 1, 1, sistema1);
         RacaDBDAO racaDAO = new RacaDBDAO();
         System.out.println("INSERE RAÇAS");
         racaDAO.insere(raca1);
@@ -58,7 +58,7 @@ public class Main {
         racaDAO.remover(raca2);
 
         Classe classe1 = new Classe(1,"Invento","Inventor Moments", 12,3,20,sistema1);
-        Classe classe2 = new Classe(2,"Gurerreiro", "Guerreiro Buxa", 20, 5, 20, sistema1);
+        Classe classe2 = new Classe(2,"Guerreiro", "Guerreiro Buxa", 20, 5, 20, sistema1);
         ClasseDBDAO classeDAO = new ClasseDBDAO();
         System.out.println("INSERE CLASSES");
         classeDAO.insere(classe1);
