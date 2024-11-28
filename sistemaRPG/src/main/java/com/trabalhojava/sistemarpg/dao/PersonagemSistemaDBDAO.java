@@ -13,7 +13,6 @@ public class PersonagemSistemaDBDAO implements PersonagemSistemaDAO, IConst{
     private String sql;
     private Connection connection;
     private PreparedStatement statement;
-    private ResultSet result;
 
     public PersonagemSistemaDBDAO() {}
 
@@ -81,40 +80,22 @@ public class PersonagemSistemaDBDAO implements PersonagemSistemaDAO, IConst{
         close();
     }
 
-    public PersonagemSistema buscaPorCodigo(int personagemId, int classeId, int sistemaId, int racaId) throws SQLException {
-        open();
-        sql = "SELECT * FROM personagem_sistema WHERE personagemId=? AND classeId=? AND sistemaId=? AND racaId=?";
-        statement = connection.prepareStatement(sql);
-        statement.setInt(1,personagemId);
-        statement.setInt(2, classeId);
-        statement.setInt(3, sistemaId);
-        statement.setInt(4, racaId);
-        result = statement.executeQuery();
-        PersonagemDBDAO personagemDB = new PersonagemDBDAO();
-        ClasseDBDAO classeDB = new ClasseDBDAO();
-        SistemaDBDAO sistemaDB = new SistemaDBDAO();
-        RacaDBDAO racaDB = new RacaDBDAO();
-        if (result.next()) {
-            PersonagemSistema personagemSistema = new PersonagemSistema();
-            personagemSistema.setPersonagem(personagemDB.buscaPorCodigo(result.getInt("personagemId")));
-            personagemSistema.setSistema(sistemaDB.buscaPorCodigo(result.getInt("sistemaId")));
-            personagemSistema.setClasse(classeDB.buscaPorCodigo(result.getInt("classeId")));
-            personagemSistema.setRaca(racaDB.buscarPorCodigo(result.getInt("racaId")));
-            PersonagemSistema personagemSistema2 = new PersonagemSistema(personagemSistema.getPersonagem(), personagemSistema.getSistema(), personagemSistema.getRaca(), personagemSistema.getClasse());
-            close();
-            return personagemSistema2;
-        }
-        else {
-            close();
-            return null;
-        }
-    }
+    /*3° Refatoração
+    Autor: Mateus de Oliveira Lopes
+    Refatoração geral para remover a função busca por código que nunca é utilizada por PersonagemSistemaDBDAO
+    Objetivo: Remover funções não usadas
+    */
 
     public List<PersonagemSistema> listar() throws SQLException {
         open();
         sql = "SELECT * FROM personagem_sistema";
         statement = connection.prepareStatement(sql);
-        result = statement.executeQuery();
+        /*4° Refatoração
+        Autor: Mateus de Oliveira Lopes
+        Transformar uma variável global da classe que é usada em apenas uma função em uma variavel local da função onde ela é usada
+        Objetivo: Deixar mais claro o uso da variável
+        */
+        ResultSet result = statement.executeQuery();
         ArrayList<PersonagemSistema> personagemSistemas = new ArrayList<>();
         PersonagemDBDAO personagemDB = new PersonagemDBDAO();
         ClasseDBDAO classeDB = new ClasseDBDAO();
